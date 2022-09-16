@@ -16,6 +16,10 @@ We need to have already installed these libraries with correct versions.
 
 These libraries are required to start with React development (obviously 😜).
 
+#### Installing @devgetting/react-init via `npm`
+```bash
+  npm install @devgetting/react-init
+```
 
 ## Usage/Examples
 
