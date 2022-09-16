@@ -1,4 +1,7 @@
 {
+	"name": "@devgetting/react-init",
+	"version": "1.0.0",
+	"private": false,
 	"main": "dist/cjs/index.js",
 	"module": "dist/esm/index.js",
 	"types": "dist/index.d.ts",
@@ -7,7 +10,6 @@
 		"package.json",
 		"README.md"
 	],
-	"private": false,
 	"scripts": {
 		"prebuild": "rm -rf dist",
 		"build": "npm run prebuild && rollup -c ./config/rollup.config.js"
