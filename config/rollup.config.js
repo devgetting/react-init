@@ -18,13 +18,11 @@ const rollupConfig = {
     {
       file: PACKAGE_MAIN,
       format: "cjs",
-      sourcemap: true,
       name: "@devgetting/react-init",
     },
     {
       file: MODULE_FILE,
       format: "esm",
-      sourcemap: true,
     },
   ],
   external: ["react"],

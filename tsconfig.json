@@ -4,7 +4,6 @@
     "jsx": "react",
     "experimentalDecorators": true,
     "module": "esnext",
-	"sourceMap": true,
     "moduleResolution": "node",
     "outDir": "build",
     "removeComments": true,
