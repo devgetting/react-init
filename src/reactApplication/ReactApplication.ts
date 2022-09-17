@@ -1,6 +1,6 @@
-import { RenderElement } from "observables/render/RenderElement";
-import { RenderObservable } from "observables/render/RenderObservable";
-import { RenderObserver } from "observables/render/RenderObserver";
+import { RenderElement } from "../observables/render/RenderElement";
+import { RenderObservable } from "../observables/render/RenderObservable";
+import { RenderObserver } from "../observables/render/RenderObserver";
 import React from "react";
 import { createRoot, Root } from "react-dom/client";
 

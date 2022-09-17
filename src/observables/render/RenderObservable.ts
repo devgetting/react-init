@@ -1,4 +1,4 @@
-import { ReactView } from "reactApplication";
+import { ReactView } from "../../reactApplication";
 import { RenderObserver } from "./RenderObserver";
 import { RenderSubject } from "./RenderSubject";
 
