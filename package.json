@@ -1,5 +1,6 @@
 {
 	"name": "@devgetting/react-init",
+	"license": "ISC",
 	"version": "1.0.4",
 	"private": false,
 	"main": "dist/cjs/index.js",
@@ -10,6 +11,9 @@
 		"package.json",
 		"README.md"
 	],
+	"exports": {
+		"./": "./build/"
+	},
 	"scripts": {
 		"prebuild": "rm -rf dist",
 		"build": "npm run prebuild && rollup -c ./config/rollup.config.js"
