@@ -1,6 +1,6 @@
-import { RenderObservable } from "observables/render/RenderObservable";
+import { RenderObservable } from "../observables/render/RenderObservable";
 import { useCallback, useState } from "react";
-import { ReactView } from "reactApplication";
+import { ReactView } from "../reactApplication";
 
 interface View {
   component: () => JSX.Element;

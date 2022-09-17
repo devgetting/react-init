@@ -1,4 +1,4 @@
-import { RenderObservable } from "observables/render/RenderObservable";
+import { RenderObservable } from "../observables/render/RenderObservable";
 
 export default function (target: any, key: string) {
   Object.defineProperty(target, key, {
