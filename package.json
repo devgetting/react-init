@@ -15,7 +15,7 @@
 		"./": "./build/"
 	},
 	"scripts": {
-		"prebuild": "rm -rf dist",
+		"prebuild": "rm -rf build",
 		"build": "npm run prebuild && rollup -c ./config/rollup.config.js"
 	},
 	"devDependencies": {
