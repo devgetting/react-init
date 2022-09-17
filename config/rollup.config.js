@@ -1,6 +1,7 @@
 import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import dts from "rollup-plugin-dts";
+import babel from "@rollup/plugin-babel";
 import { terser } from "rollup-plugin-terser";
 
 import {
@@ -28,6 +29,10 @@ const rollupConfig = {
   external: ["react"],
   plugins: [
     commonjs(),
+    babel({
+      babelHelpers: "bundled",
+      presets: ["@babel/preset-env", "@babel/preset-typescript"],
+    }),
     typescript({
       tsconfig: TS_CONFIG,
     }),
