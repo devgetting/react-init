@@ -16,6 +16,11 @@ We need to have already installed these libraries with correct versions.
 
 These libraries are required to start with React development (obviously 😜).
 
+  ### About Create React App CLI
+  This library is not supported into CRA projects, due decorator structure is an experimental proposal and it may change in the future. But don't worry, if this change in the future, we'll fix it 🥲.
+
+  If you want to see more about why CRA is not accepting this structure, see [Can I Use Decorators?](https://create-react-app.dev/docs/can-i-use-decorators/)
+
 #### Installing @devgetting/react-init via `npm`
 ```bash
   npm install @devgetting/react-init
