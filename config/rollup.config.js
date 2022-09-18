@@ -32,6 +32,7 @@ const rollupConfig = {
     babel({
       babelHelpers: "bundled",
       presets: ["@babel/preset-env", "@babel/preset-typescript"],
+      plugins: [["@babel/plugin-proposal-decorators", { version: "legacy" }]],
     }),
     typescript({
       tsconfig: TS_CONFIG,
