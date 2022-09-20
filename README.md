@@ -54,7 +54,7 @@ This file requires to be exported with normal function to work with the current 
 
 #### ComponentView.ts 
 ```javascript
-import { View } from '@devgetting/react-init/decorators';
+import { View } from '@devgetting/react-init/';
 import Component from '../components/Component';
 
 @View({
@@ -81,7 +81,7 @@ This library doesn't use `useState` hook to make changes to the current componen
 ```javascript
 // ===============================================
 
-import { View } from '@devgetting/react-init/decorators';
+import { View } from '@devgetting/react-init/';
 import Component from '../component/Component';
 
 @View({
@@ -122,8 +122,7 @@ If you want to manage redirection from a view to another one, you have to use th
 #### ComponentView.ts
 ```javascript
 import Component from '../components/Component';
-import { Routing } from '@devgetting/react-init';
-import { routing, View } from '@devgetting/react-init/decorators';
+import { Routing, routing, View } from '@devgetting/react-init';
 
 @View({
   component: Component,
