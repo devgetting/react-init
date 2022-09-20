@@ -11,6 +11,9 @@
 		"package.json",
 		"README.md"
 	],
+	"exports": {
+		"./decorators": "./build/decorators.d.ts"
+	},
 	"scripts": {
 		"prebuild": "rm -rf build",
 		"build": "npm run prebuild && rollup -c ./config/rollup.config.js"

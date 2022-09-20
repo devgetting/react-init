@@ -6,8 +6,10 @@ import { terser } from "rollup-plugin-terser";
 
 import {
   INPUT_FILE,
+  INPUT_TS_DECORATORS,
   INPUT_TS_FILE,
   MODULE_FILE,
+  OUTPUT_TS_DECORATORS,
   OUTPUT_TS_FILE,
   PACKAGE_MAIN,
   TS_CONFIG,
@@ -52,11 +54,25 @@ const rollupTypescriptConfig = {
   plugins: [dts()],
 };
 
+const decoratorsConfig = {
+  input: INPUT_TS_DECORATORS,
+  output: [
+    {
+      file: OUTPUT_TS_DECORATORS,
+      format: "esm",
+    },
+  ],
+  plugins: [dts()],
+};
+
 export default [
   {
     ...rollupConfig,
   },
   {
     ...rollupTypescriptConfig,
+  },
+  {
+    ...decoratorsConfig,
   },
 ];

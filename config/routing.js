@@ -15,5 +15,14 @@ export const TYPES_FILE = path.join(BUILD_DIR, "index.d.ts");
 export const INPUT_TS_FILE = path.join(BUILD_DIR, "esm", "index.d.ts");
 export const OUTPUT_TS_FILE = path.join(BUILD_DIR, "index.d.ts");
 
+//package typescript decorators
+export const INPUT_TS_DECORATORS = path.join(
+  BUILD_DIR,
+  "esm",
+  "decorators",
+  "index.d.ts"
+);
+export const OUTPUT_TS_DECORATORS = path.join(BUILD_DIR, "decorators.d.ts");
+
 //tsconfig
 export const TS_CONFIG = path.join(ROOT_DIR, "tsconfig.json");
