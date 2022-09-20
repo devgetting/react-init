@@ -54,7 +54,7 @@ This file requires to be exported with normal function to work with the current 
 
 #### ComponentView.ts 
 ```javascript
-import { View } from '@devgetting/react-init/';
+import { View } from '@devgetting/react-init';
 import Component from '../components/Component';
 
 @View({
