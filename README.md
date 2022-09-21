@@ -146,6 +146,39 @@ export default function(this: ComponentView) {
 }
 ```
 
+## Route Params
+
+If you require params into the URL you can add params into `params` array of `@View` decorator.
+
+```typescript
+@View({
+  component: Component,
+  baseUrl: '/user',
+  params: [':userid']
+})
+export class ComponentView {}
+```
+
+This will make available a route like this: `http://localhost:3000/dashboard/<userid>`
+
+## Getting specific param
+
+If you want to catch a view param is necessary use the `@param` decorator.
+
+```typescript
+@View({
+  component: Component,
+  baseUrl: '/dashboard',
+  params: [':userid']
+})
+export class ComponentView {
+  @param('userId')
+  userId: string;
+}
+```
+
+If route is `http://localhost:3001/dashboard/2` this property will retreive `2`.
+
 ## Registering new views
 
 In case you want to add a new view you just have to add it into the `ReactApplication` class on your `index.ts` file.
