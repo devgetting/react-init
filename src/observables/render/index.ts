@@ -1,4 +1,4 @@
 export * from "./RenderElement";
-export * from "./RenderObservable";
+export * from "./DisplayObservable";
 export * from "./RenderObserver";
 export * from "./RenderSubject";

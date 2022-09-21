@@ -1,6 +1,6 @@
-import { RenderObserver } from "./RenderObserver";
+import { RenderElement } from "./RenderElement";
 
 export interface RenderSubject {
-  registerObserver(observer: RenderObserver): void;
-  notifyObservers(): void;
+  registerDisplay(display: RenderElement): void;
+  notifyDisplays(): void;
 }

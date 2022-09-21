@@ -1,5 +1,5 @@
-import { ReactView } from "../../reactApplication";
+import { ReactView } from "../../types";
 
 export interface RenderObserver {
-  update(baseUrl: string, component?: ReactView): void;
+  update(baseUrl: string, params: string[], component?: ReactView): void;
 }

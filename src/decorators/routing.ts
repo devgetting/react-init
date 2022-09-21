@@ -1,4 +1,4 @@
-import { RenderObservable } from "../observables/render/RenderObservable";
+import { DisplayObservable } from "../observables/render/DisplayObservable";
 
 export default function (target: any, key: string) {
   Object.defineProperty(target, key, {
@@ -9,8 +9,8 @@ export default function (target: any, key: string) {
           urlRoute,
           `${location.protocol}//${location.host}`
         );
-        window.history.pushState(null, null, route);
-        RenderObservable.getInstance().switchRoute(path);
+        window.history.pushState({}, null, route);
+        DisplayObservable.getInstance().notifyDisplays();
       },
     },
   });

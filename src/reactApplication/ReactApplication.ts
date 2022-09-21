@@ -1,59 +1,11 @@
-import { RenderElement } from "../observables/render/RenderElement";
-import { RenderObservable } from "../observables/render/RenderObservable";
-import { RenderObserver } from "../observables/render/RenderObserver";
-import React from "react";
-import { createRoot, Root } from "react-dom/client";
+import { ViewModel } from "../models/ViewModel";
 
-export type ReactView = { component: () => JSX.Element };
-export interface ReactApplicationComponent {
-  [key: string]: {
-    component: ReactView;
-  };
-}
-
-export class ReactApplication implements RenderObserver, RenderElement {
-  private id: string;
-  private reactApplicationComponents: ReactApplicationComponent = {};
-  private root: Root;
-  private exist: boolean = false;
+export class ReactApplication {
   private static instance: ReactApplication;
-  private renderObservable: RenderObservable;
+  private viewModel: ViewModel;
 
   private constructor(id: string) {
-    this.id = id;
-
-    this.root = createRoot(document.getElementById(this.id));
-
-    this.renderObservable = RenderObservable.getInstance();
-    this.renderObservable.registerObserver(this);
-  }
-
-  update(baseUrl: string, component?: ReactView): void {
-    if (component) {
-      this.reactApplicationComponents[baseUrl] = {
-        component,
-      };
-    }
-
-    if (baseUrl === window.location.pathname) {
-      this.render();
-    }
-  }
-
-  render(): void {
-    const { component } =
-      this.reactApplicationComponents[window.location.pathname];
-
-    const availableRoutes = Object.keys(this.reactApplicationComponents);
-
-    if (!availableRoutes.includes(window.location.pathname)) {
-      this.exist = false;
-      return;
-    }
-
-    this.exist = true;
-    const element = React.createElement(component.component);
-    this.root.render(element);
+    this.viewModel = new ViewModel(id);
   }
 
   notFound() {}
@@ -66,8 +18,14 @@ export class ReactApplication implements RenderObserver, RenderElement {
     return this.instance;
   }
 
-  view(view: new (...args: any[]) => any) {
-    new view();
+  view(View: new (...args: any[]) => any) {
+    const currentView = new View();
+    const sym = Object.getOwnPropertySymbols(currentView).find(
+      ({ description }) => description === "pathConfig"
+    );
+
+    const path = currentView[sym];
+    this.viewModel.update(path.baseUrl, path.params, currentView);
     return ReactApplication.instance;
   }
 }
