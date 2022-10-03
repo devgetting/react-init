@@ -1,7 +1,7 @@
 {
 	"name": "@devgetting/react-init",
 	"license": "ISC",
-	"version": "1.2.0",
+	"version": "1.2.1",
 	"private": false,
 	"main": "./build/cjs/index.js",
 	"module": "./build/esm/index.js",
