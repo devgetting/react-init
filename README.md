@@ -72,6 +72,7 @@ import { ComponentView } from './views/ComponentView';
 
 ReactApplication.run("root")
   .view(ComponentView)
+  .start()
 ```
 
 ## Component actions
@@ -191,4 +192,5 @@ import { AboutView } from './views/AboutView';
 ReactApplication.run("root")
   .view(ComponentView)
   .view(AboutView)
+  .start()
 ```
