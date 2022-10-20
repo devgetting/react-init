@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot, Root } from "react-dom/client";
+import { PageNotFoundException } from "../exceptions";
 import { RenderElement, RenderObserver } from "../observables";
 import { DisplayObservable } from "../observables/render/DisplayObservable";
 import { ReactComponent, ReactView } from "../types";
@@ -10,6 +11,7 @@ export class ViewModel implements RenderObserver, RenderElement {
   private reactComponents: ReactComponent[] = [];
   private root: Root;
   private renderObservable: DisplayObservable;
+  private notFoundView: () => JSX.Element;
 
   constructor(id: string) {
     this.id = id;
@@ -19,6 +21,10 @@ export class ViewModel implements RenderObserver, RenderElement {
     window.addEventListener("popstate", () => {
       DisplayObservable.getInstance().notifyDisplays();
     });
+  }
+
+  registerNotFound(component: () => JSX.Element) {
+    this.notFoundView = component;
   }
 
   update(baseUrl: string, params: string[] = [], component?: ReactView): void {
@@ -34,23 +40,31 @@ export class ViewModel implements RenderObserver, RenderElement {
           baseUrl,
         });
       }
+    }
+  }
 
-      try {
-        this.render();
-      } catch (e) {}
+  start() {
+    try {
+      this.render();
+    } catch (e: unknown) {
+      const element = this.notFoundView
+        ? React.createElement(this.notFoundView)
+        : React.createElement("h1", {
+            children: "Page not found",
+          });
+      this.root.render(element);
     }
   }
 
   render(): void {
     const compTemp = getCurrentComponent(this.reactComponents);
 
-    const { component } = compTemp;
+    const { component } = { ...compTemp };
 
     if (!component) {
-      console.error(
+      throw new PageNotFoundException(
         `${window.location.pathname} does not exist as a registered view`
       );
-      return;
     }
 
     const element = React.createElement(component.component);

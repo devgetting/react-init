@@ -8,7 +8,14 @@ export class ReactApplication {
     this.viewModel = new ViewModel(id);
   }
 
-  notFound() {}
+  notFound(component: () => JSX.Element) {
+    this.viewModel.registerNotFound(component);
+    return ReactApplication.instance;
+  }
+
+  start() {
+    this.viewModel.start();
+  }
 
   static run(id: string) {
     if (!this.instance) {
@@ -21,7 +28,7 @@ export class ReactApplication {
   view(View: new (...args: any[]) => any) {
     const currentView = new View();
     const sym = Object.getOwnPropertySymbols(currentView).find(
-      ({ description }) => description === "pathConfig"
+      ({ description }) => description === "$$path$config"
     );
 
     const path = currentView[sym];

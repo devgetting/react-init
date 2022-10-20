@@ -28,7 +28,7 @@ export default function ({ component, baseUrl = "/", params = [] }: View) {
           value: () => functionalComponent.apply(this),
         });
 
-        Object.defineProperty(this, Symbol("pathConfig"), {
+        Object.defineProperty(this, Symbol("$$path$config"), {
           value: {
             baseUrl,
             params,

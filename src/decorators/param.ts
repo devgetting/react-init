@@ -5,7 +5,7 @@ export default function (param: string) {
     const descriptor = {
       get(this: any) {
         const sym = Object.getOwnPropertySymbols(this).find(
-          ({ description }) => description === "pathConfig"
+          ({ description }) => description === "$$path$config"
         );
 
         const viewConfig = this[sym];
