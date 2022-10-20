@@ -53,7 +53,7 @@ export default function() {
 This file requires to be exported with normal function to work with the current class instance that we are going to see bellow.
 
 #### ComponentView.ts 
-```javascript
+```typescript
 import { View } from '@devgetting/react-init';
 import Component from '../components/Component';
 
@@ -79,7 +79,7 @@ ReactApplication.run("root")
 
 This library doesn't use `useState` hook to make changes to the current components. To create events like hook does, we need to use the `@action` decorator.
 
-```javascript
+```typescript
 // ===============================================
 
 import { View } from '@devgetting/react-init/';
@@ -173,7 +173,7 @@ If you want to catch a view param is necessary use the `@param` decorator.
   params: [':userid']
 })
 export class ComponentView {
-  @param('userId')
+  @param('userid')
   userId: string;
 }
 ```
@@ -184,7 +184,7 @@ If route is `http://localhost:3001/dashboard/2` this property will retreive `2`.
 
 In case you want to add a new view you just have to add it into the `ReactApplication` class on your `index.ts` file.
 
-```javascript
+```typescript
 import { ReactApplication } from '@devgetting/react-init';
 import { ComponentView } from './views/ComponentView';
 import { AboutView } from './views/AboutView';
@@ -192,5 +192,36 @@ import { AboutView } from './views/AboutView';
 ReactApplication.run("root")
   .view(ComponentView)
   .view(AboutView)
+  .start();
+```
+## Custom Not Found View
+
+In case user access to a not registered URL, a 404 page is going to be show it by default but if you want a custom 404 view, you can do it creating a simple React component.
+
+```typescript
+// components/NotFound.tsx
+import React from 'react';
+
+const NotFound = () => (
+  <>
+    <h1>Page not found</h1>
+    <p>This route is not available</p>
+  </>
+
+);
+
+export default NotFound;
+
+// src/index.ts
+
+import { ReactApplication } from '@devgetting/react-init';
+import { ComponentView } from './views/ComponentView';
+import { AboutView } from './views/AboutView';
+import NotFound from './components/NotFound';
+
+ReactApplication.run("root")
+  .view(ComponentView)
+  .view(AboutView)
+  .notFound(NotFound)
   .start()
 ```
