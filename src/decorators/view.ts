@@ -8,9 +8,27 @@ interface View {
 
 export default function ({ component, baseUrl = "/", params = [] }: View) {
   return function <T extends { new (...rest: any[]): {} }>(target: T) {
-    return class extends target {
+    const viewObject = {};
+
+    Object.defineProperty(viewObject, Symbol("$$path$config"), {
+      value: {
+        baseUrl,
+        params,
+      },
+      enumerable: true,
+    });
+
+    const targetClass = class extends target {
       constructor(...args: any[]) {
         super(...args);
+
+        Object.defineProperty(this, Symbol("$$path$config"), {
+          value: {
+            baseUrl,
+            params,
+          },
+          enumerable: true,
+        });
 
         const functionalComponent = function () {
           const [, updateState] = useState<{}>();
@@ -27,15 +45,13 @@ export default function ({ component, baseUrl = "/", params = [] }: View) {
         Object.defineProperty(this, "component", {
           value: () => functionalComponent.apply(this),
         });
-
-        Object.defineProperty(this, Symbol("$$path$config"), {
-          value: {
-            baseUrl,
-            params,
-          },
-          enumerable: true,
-        });
       }
     };
+
+    Object.assign(viewObject, {
+      view: targetClass,
+    });
+
+    return viewObject as T;
   };
 }

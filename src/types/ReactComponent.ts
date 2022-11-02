@@ -1,7 +1,7 @@
 import { ReactView } from "./ReactView";
 
 export interface ReactComponent {
-  component: ReactView;
+  component: new () => ReactView;
   baseUrl: string;
   params?: string[];
 }
