@@ -15,7 +15,7 @@ export class DisplayObservable implements RenderSubject {
 
   notifyDisplays(): void {
     for (let display of this.displays) {
-      display.render();
+      display.start();
     }
   }
 

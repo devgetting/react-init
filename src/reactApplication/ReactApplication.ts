@@ -25,14 +25,13 @@ export class ReactApplication {
     return this.instance;
   }
 
-  view(View: new (...args: any[]) => any) {
-    const currentView = new View();
-    const sym = Object.getOwnPropertySymbols(currentView).find(
+  view(view: Record<string | symbol, any>) {
+    const sym = Object.getOwnPropertySymbols(view).find(
       ({ description }) => description === "$$path$config"
     );
 
-    const path = currentView[sym];
-    this.viewModel.update(path.baseUrl, path.params, currentView);
+    const path = view[sym];
+    this.viewModel.update(path.baseUrl, path.params, view.view);
     return ReactApplication.instance;
   }
 }

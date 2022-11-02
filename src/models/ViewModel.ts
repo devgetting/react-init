@@ -27,7 +27,11 @@ export class ViewModel implements RenderObserver, RenderElement {
     this.notFoundView = component;
   }
 
-  update(baseUrl: string, params: string[] = [], component?: ReactView): void {
+  update(
+    baseUrl: string,
+    params: string[] = [],
+    component?: new () => ReactView
+  ): void {
     if (component) {
       const index = this.reactComponents.findIndex(
         (component) => component.baseUrl === baseUrl
@@ -43,16 +47,20 @@ export class ViewModel implements RenderObserver, RenderElement {
     }
   }
 
+  private notFoundException() {
+    const element = this.notFoundView
+      ? React.createElement(this.notFoundView)
+      : React.createElement("h1", {
+          children: "Page not found",
+        });
+    this.root.render(element);
+  }
+
   start() {
     try {
       this.render();
     } catch (e: unknown) {
-      const element = this.notFoundView
-        ? React.createElement(this.notFoundView)
-        : React.createElement("h1", {
-            children: "Page not found",
-          });
-      this.root.render(element);
+      this.notFoundException();
     }
   }
 
@@ -67,7 +75,9 @@ export class ViewModel implements RenderObserver, RenderElement {
       );
     }
 
-    const element = React.createElement(component.component);
+    const comp = new component();
+
+    const element = React.createElement(comp.component);
     this.root.render(element);
   }
 }
