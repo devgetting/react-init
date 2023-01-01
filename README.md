@@ -293,8 +293,8 @@ This is how `RegisterUser` and `UserList` are implementing the context data.
 import { Receiver } from '@devgetting/react-init';
 
 class RegisterUserService {
-  @Receiver(HomeViewContext)
-  private homeViewContext: HomeViewContext;
+  @Receiver(ApplicationContext)
+  private applicationContext: ApplicationContext;
 
   get username() {
     return this.applicationContext.value || "";
