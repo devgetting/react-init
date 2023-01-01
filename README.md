@@ -225,3 +225,129 @@ ReactApplication.run("root")
   .notFound(NotFound)
   .start()
 ```
+
+## Context & Listener
+An important feature into react is the way we can create context to share information between components avoiding cascade props with the child components. `@devgetting/react-init` provides us a simple way to share this information into different components.
+
+#### Creating a Listener
+to create a Listener we just need to create a new class and add the `@Listener` decorator.
+
+```typescript
+import { Listener } from '@devgetting/react-init';
+
+@Listener
+export class HomeViewListener {}
+```
+
+We need register our `Listener` into our view class
+
+```typescript
+@View({
+  //baseUrl & component defined too
+
+  listener: HomeViewListener
+})
+export class ComponentView {}
+```
+
+Once we have registered out `Listener` into our view, We need to create a context class that will manage all the shared data. This class needs to be registered as a Context and we need to tell it which Listener is going to be notified once we make a change.
+
+```typescript
+import { Context, notify } from '@devgetting/react-init';
+
+@Context(HomeViewListener)
+export class ApplicationContext {
+	public userList: string[] = [];
+	public value: string;
+
+    @notify //notify decorator will send a message to listener for data dispatch 
+	public registerUser(user: string) {
+		this.userList.push(user);
+	}
+
+	@notify
+	public setValue(value: string) {
+		this.value = value;
+	}
+}
+```
+
+#### Implementing the shared component
+This is how our `Component` view looks like
+
+```typescript
+export function Component() {
+  return (
+    <>
+      <h1>Home View</h1>
+      <RegisterUser />
+      <UserList />
+    </>
+  );
+}
+```
+
+This is how `RegisterUser` and `UserList` are implementing the context data.
+
+```typescript
+import { Receiver } from '@devgetting/react-init';
+
+class RegisterUserService {
+  @Receiver(HomeViewContext)
+  private homeViewContext: HomeViewContext;
+
+  get username() {
+    return this.applicationContext.value || "";
+  }
+
+  changeUsername(username: string) {
+    this.applicationContext.setValue(username);
+  }
+
+  registerUser() {
+    this.applicationContext.registerUser();
+  }
+}
+
+const registerUserService = new RegisterUserService();
+
+export const RegisterUser = () => {
+  const actions = {
+    registerUser: () => registerUserService.registerUser(),
+    changeUsername: (e: React.ChangeEvent<HTMLInputElement>) =>
+      registerUserService.changeUsername(e.target.value),
+  };
+
+  const { registerUser, changeUsername } = actions;
+
+  return (
+    <>
+      <input value={registerUserService.username} onChange={changeUsername} />
+      <button onClick={registerUser}>Register</button>
+    </>
+  );
+};
+```
+
+```typescript
+class UserListService {
+  @Receiver(ApplicationContext)
+  private applicationContext: ApplicationContext;
+
+  get userList() {
+    return this.applicationContext.userList;
+  }
+}
+
+const userListService = new UserListService();
+
+export const UserList = () => {
+  return (
+    <ul>
+      {userListService.userList.map((user) => (
+        <li>{user}</li>
+      ))}
+    </ul>
+  );
+};
+```
