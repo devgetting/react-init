@@ -351,3 +351,7 @@ export const UserList = () => {
   );
 };
 ```
+
+And this is how it looks like!
+
+![](https://github.com/devgetting/react-init/blob/main/example.gif)
