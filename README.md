@@ -253,19 +253,17 @@ export class ComponentView {}
 Once we have registered out `Listener` into our view, We need to create a context class that will manage all the shared data. This class needs to be registered as a Context and we need to tell it which Listener is going to be notified once we make a change.
 
 ```typescript
-import { Context, notify } from '@devgetting/react-init';
+import { Context } from '@devgetting/react-init';
 
-@Context(HomeViewListener)
+@Context
 export class ApplicationContext {
 	public userList: string[] = [];
 	public value: string;
 
-    @notify //notify decorator will send a message to listener for data dispatch 
 	public registerUser(user: string) {
 		this.userList.push(user);
 	}
 
-	@notify
 	public setValue(value: string) {
 		this.value = value;
 	}
@@ -290,9 +288,10 @@ export function Component() {
 This is how `RegisterUser` and `UserList` are implementing the context data.
 
 ```typescript
-import { Receiver } from '@devgetting/react-init';
+import { action, notify, observer, Receiver } from '@devgetting/react-init';
 
-class RegisterUserService {
+@Controller(HomeViewListener)
+class RegisterUserController {
   @Receiver(ApplicationContext)
   private applicationContext: ApplicationContext;
 
@@ -300,18 +299,20 @@ class RegisterUserService {
     return this.applicationContext.value || "";
   }
 
+  @action //affects current component
   changeUsername(username: string) {
     this.applicationContext.setValue(username);
   }
 
+  @notify //affects all registered components into the Listener
   registerUser() {
     this.applicationContext.registerUser();
   }
 }
 
-const registerUserService = new RegisterUserService();
+const registerUserController = new RegisterUserController();
 
-export const RegisterUser = () => {
+const component = () => {
   const actions = {
     registerUser: () => registerUserService.registerUser(),
     changeUsername: (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -327,10 +328,15 @@ export const RegisterUser = () => {
     </>
   );
 };
+
+export const RegisterUser = observer(registerUserController, component);
 ```
 
 ```typescript
-class UserListService {
+import { observer, Controller, Receiver } from '@devgetting/react-init';
+
+@Controller(HomeViewListener)
+class UserListController {
   @Receiver(ApplicationContext)
   private applicationContext: ApplicationContext;
 
@@ -339,9 +345,9 @@ class UserListService {
   }
 }
 
-const userListService = new UserListService();
+const userListController = new UserListController();
 
-export const UserList = () => {
+const component = () => {
   return (
     <ul>
       {userListService.userList.map((user) => (
@@ -350,6 +356,8 @@ export const UserList = () => {
     </ul>
   );
 };
+
+export const UserList = observer(userListController, component);
 ```
 
 And this is how it looks like!
