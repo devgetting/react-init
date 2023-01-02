@@ -1,33 +1,25 @@
 import { ClassInstance } from "../types";
-import { Singleton } from "../types/Singleton";
 
-export default function (Listener: ClassInstance) {
-  return function <T extends ClassInstance>(target: T) {
-    const targetClass = class extends target {
-      private static instance: T;
+export default function <T extends ClassInstance>(target: T) {
+  const targetClass = class extends target {
+    private static instance: T;
 
-      private constructor(...args: any[]) {
-        super(...args);
+    private constructor(...args: any[]) {
+      super(...args);
 
-        const listener = Listener as unknown as Singleton<ClassInstance>;
+      if (!args[0]) {
+        throw "This class has been defined as a context and cannot being initialized by new () declaration";
+      }
+    }
 
-        Object.defineProperty(this, "listener", {
-          get: function () {
-            return listener;
-          },
-          enumerable: true,
-        });
+    public static getInstance() {
+      if (!this.instance) {
+        this.instance = new targetClass(true);
       }
 
-      public static getInstance() {
-        if (!this.instance) {
-          this.instance = new targetClass();
-        }
-
-        return this.instance;
-      }
-    };
-
-    return targetClass as T;
+      return this.instance;
+    }
   };
+
+  return targetClass as T;
 }

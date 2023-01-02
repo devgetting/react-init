@@ -6,3 +6,4 @@ export { default as Listener } from "./Listener";
 export { default as Receiver } from "./Receiver";
 export { default as Context } from "./Context";
 export { default as notify } from "./notify";
+export { default as Controller } from "./Controller";
